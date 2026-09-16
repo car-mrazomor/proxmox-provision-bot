@@ -1,0 +1,29 @@
+Simple python script that uses the Proxmox VE API to provision a new VM: creates the VM, sets CPU/RAM/disk, attaches a cloud-init image or ISO, starts it, waits for the guest agent, sets a root password (or adds your SSH key), grabs the assigned IP, and reboots it into a ready state.
+
+Requirements
+- python 3
+- requests (pip3 install requests)
+- a working Proxmox VE node with API access
+
+Setup
+1. edit data_config.json:
+   - set proxmox_ip, username, and password for your Proxmox node under api.server_info.proxmox
+   - under isos, map a short name to the actual template/image file (must already exist on your Proxmox storage, e.g. /var/lib/vz/template/iso/)
+   - the Windows entry is different: it points to a VMID of an existing VM template to clone (see the "info" note in the json file), not a file name
+2. make sure the image/ISO files referenced in isos are already uploaded to your Proxmox storage.
+
+Usage
+Call create_server_api() from _create_server.py with:
+   ios          - key from the isos section in data_config.json
+   server_name  - name for the new VM
+   node         - Proxmox node name
+   ssh_key      - (optional) your public SSH key, added to /root/.ssh/authorized_keys
+   storage      - disk size in GB (default 25)
+   cpu          - CPU cores (default 1)
+   ram          - RAM in GB (default 2)
+
+Returns: vmid, root_password, ip_address, node
+
+Notes
+- ISOs are not fully automated (no unattended install), you'll need to configure/install through them yourself after mount.
+- data_config.json holds credentials, do not commit your real values, keep this file out of version control or replace with your own before pushing.

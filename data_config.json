@@ -1,0 +1,20 @@
+{
+    "info":"This is just a sample. For ISOs, you'll need to configure them yourself. The example here for Windows uses VMID 100 as a template. The rest are .qcow2 or .iso files, and each gives a different outcome.",
+    "api":{
+        "server_info":
+            {"proxmox":{
+                "proxmox_ip":"proxmox_ip_addr",
+                "username":"root",
+                "password":"proxmox_password"
+            }}
+    },
+    "isos":{
+        "windows-2025":"100",
+        "ubuntu-26.04":"resolute-server-cloudimg-amd64.img",
+        "debian-13":"debian-13-genericcloud-amd64.qcow2",
+        "debian-12":"debian-12-genericcloud-amd64.qcow2",
+        "0":"systemrescue-12.02-amd64.iso",
+        "1":"FreeBSD-15.0-RELEASE-amd64-disc1.iso",
+        "2":"install77.iso"
+    }
+}

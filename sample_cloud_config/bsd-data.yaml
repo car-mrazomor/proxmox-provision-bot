@@ -1,0 +1,35 @@
+#cloud-config
+fqdn: localhost
+hostname: localhost
+prefer_fqdn_over_hostname: true
+manage_etc_hosts: true
+
+packages:
+  - qemu-guest-agent
+  - openssh-portable
+
+runcmd:
+  - sysrc sshd_enable=YES
+  - sysrc qemu_guest_agent_enable=YES
+  - service qemu-guest-agent start
+  - service sshd start
+  - sed -i '' 's/^#PermitRootLogin.*/PermitRootLogin yes/' /etc/ssh/sshd_config
+  - sed -i '' 's/^#PasswordAuthentication.*/PasswordAuthentication yes/' /etc/ssh/sshd_config
+  - service sshd restart
+
+users:
+  - name: root
+    shell: /bin/csh
+    lock_passwd: false
+
+disable_root: false
+ssh_pwauth: true
+
+chpasswd:
+  expire: false
+
+network:
+  version: 2
+  ethernets:
+    vtnet0:
+      dhcp4: true
